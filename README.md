@@ -28,13 +28,14 @@ La Plataforma 1 está pensada para ser **reutilizable** — cualquier docente o 
   - Programable en Arduino IDE y PLC IDE (LADDER, LBD, Structured Text)
 
 ### Módulos de expansión (encadenados por bus AUX)
-El orden en el riel DIN es fijo: **Opta → SIMUL8 → CELSIUS → A0602**
+El orden en el riel DIN es fijo: **Opta → SIMUL8 → A0602**
 
 | Módulo | Función | Terminales |
 |--------|---------|------------|
 | **SIMUL8** | 8 switches manuales que simulan señales digitales de 24V hacia I1–I8 del Opta. Herramienta didáctica — permite probar lógica sin sensores físicos. | 8 canales digitales |
-| **CELSIUS** | Entradas de temperatura para termopar tipo K/J/T. Rango amplio (−200°C a +850°C). | TC+, TC−, GND |
 | **A0602 (AFX00007)** | Módulo analógico completo. 6 entradas programables (0–10V / 4–20mA / PT100), 2 salidas analógicas (0–10V o 4–20mA), 4 salidas PWM. | I1–I6, O1–O2, P1–P4 |
+
+> **Nota:** El módulo **CELSIUS** (entradas de termopar tipo K/J/T) forma parte del kit pero se ubicará en la **Plataforma 2**, junto a los sensores de campo, no en el gabinete.
 
 ### Accesorios incluidos
 - Fuente de alimentación 24V DC (conecta al tomacorriente 110VAC)
@@ -54,7 +55,7 @@ El orden en el riel DIN es fijo: **Opta → SIMUL8 → CELSIUS → A0602**
 │  CANALETA SUPERIOR                          │
 ├─────────────────────────────────────────────┤
 │  RIEL 1 — Componentes activos               │
-│  [Fuente 24V][Opta][CELSIUS][A0602][ libre ]│
+│  [Fuente 24V][Opta][A0602][ libre ][ libre ] │
 │  (no accesible al usuario)                  │
 ├─────────────────────────────────────────────┤
 │  CANALETA MEDIA 1                           │
@@ -91,7 +92,6 @@ El orden en el riel DIN es fijo: **Opta → SIMUL8 → CELSIUS → A0602**
 | Azul claro | Entradas analógicas AI1–AI6 |
 | Naranja | Salidas analógicas AO1–AO2 |
 | Blanco | Salidas PWM P1–P4 |
-| Gris | Señal termopar CELSIUS |
 
 ---
 
@@ -129,8 +129,7 @@ El orden en el riel DIN es fijo: **Opta → SIMUL8 → CELSIUS → A0602**
 | Entradas analógicas | AI1–AI6 + GND | 7 | Azul |
 | Salidas analógicas | AO1, AO2 + GND | 3 | Naranja |
 | Salidas PWM | P1–P4 + GND | 5 | Blanco |
-| Termopar | TC+, TC−, GND | 3 | Gris |
-| **Total** | | **~44** | |
+| **Total** | | **~33** | |
 
 ---
 
@@ -140,7 +139,7 @@ El orden en el riel DIN es fijo: **Opta → SIMUL8 → CELSIUS → A0602**
 - **I1–I8:** digitales 24V — NPN o PNP (inductivos, fotoeléctricos, pulsadores)
 - **AI1–AI4:** analógicas 0–10V o 4–20mA (presión, nivel, caudal)
 - **AI5–AI6:** analógicas + PT100 2/3 hilos
-- **TC+/TC−:** termopar tipo K/J/T
+- **TC+/TC−:** termopar tipo K/J/T — leídos por el módulo CELSIUS ubicado en Plataforma 2, que retorna datos al Opta por bus AUX extendido
 
 ### Salidas del PLC (actuadores ← Opta)
 - **O1–O4:** relés contacto seco NO, 250VAC/5A (electroválvulas, contactores, pilotos)
