@@ -100,15 +100,60 @@ Desarrollado por Arduino Education en colaboración con Finder.
 - Puerto USB-C para programación; puerto AUX lateral para encadenar módulos
 - Programable en Arduino IDE y en Arduino PLC IDE (LD, FBD, ST, IL, SFC)
 
-**Módulos de expansión** (encadenados por bus AUX):
+**Módulos montados en el panel** (encadenados por bus AUX, en este orden):
 
 | Módulo | Función | Terminales |
 |--------|---------|------------|
 | **DIN Simul8** | 8 switches manuales que simulan señales digitales de 24 V hacia I1–I8. Permite probar lógica sin sensores físicos. | 8 canales digitales |
-| **DIN Celsius** | Entradas de termopar tipo K/J/T para las prácticas de temperatura. | Canales de termopar |
 | **AFX00007** (Opta Ext A0602) | Módulo analógico: 6 entradas programables (0–10 V / 4–20 mA / PT100), 2 salidas analógicas (0–10 V o 4–20 mA), 4 salidas PWM. | I1–I6, O1–O2, P1–P4 |
 
+> **El DIN Celsius no se monta en el panel.** Aunque viene incluido en el kit AKX00051, se
+> reserva como **sensor de prueba externo** para las prácticas de temperatura: el estudiante lo
+> conecta al conjunto solo cuando la práctica lo requiere, del mismo modo que cualquier otro
+> dispositivo de campo. Rango: −200 °C a +850 °C, termopar tipo K/J/T, terminales TC+, TC−, GND.
+
 Accesorios: fuente de 24 V DC, cables de bus AUX y cableado general.
+
+### Distribución del panel de control
+
+El sistema se empotra sobre el panel de acrílico en **tres rieles DIN** horizontales, separados
+por ductos ranurados de 25×25 mm por donde corre el cableado interno. La distribución sigue el
+flujo lógico de entradas hacia salidas:
+
+```
+┌────────────────────────────────────────────────────────────┐
+│  DUCTO SUPERIOR                                            │
+├────────────────────────────────────────────────────────────┤
+│  RIEL 1 — Componentes activos                              │
+│  [ Fuente 24 V DC ][ Opta WiFi ][ AFX00007 ]               │
+├────────────────────────────────────────────────────────────┤
+│  DUCTO INTERMEDIO 1                                        │
+├────────────────────────────────────────────────────────────┤
+│  RIEL 2 — Interacción directa del estudiante               │
+│  [ DIN Simul8 · switches S1–S8 ][ +24 V / GND × 8 pares ]  │
+├────────────────────────────────────────────────────────────┤
+│  DUCTO INTERMEDIO 2                                        │
+├────────────────────────────────────────────────────────────┤
+│  RIEL 3 — Borneras de paso de señales de campo             │
+│  [ I1–I8 ][ O1–O4 ][ AI1–AI6 ][ AO1–AO2 ][ P1–P4 ]         │
+├────────────────────────────────────────────────────────────┤
+│  Tarjeta PC817 (4 canales) · paso del cable USB de 5 V     │
+└────────────────────────────────────────────────────────────┘
+```
+
+Diferencias respecto del diseño de anteproyecto:
+
+- **No hay ventanas ni tapa frontal.** El panel es abierto y se presenta inclinado a 70°, de modo
+  que switches y borneras quedan directamente accesibles. Las ventanas recortadas en una tapa
+  dejaron de tener sentido al descartarse la carcasa cerrada.
+- **El DIN Celsius sale del panel** y pasa a ser un sensor de prueba externo.
+- **Se agrega la tarjeta PC817**, con el paso del cable USB que la alimenta a 5 V desde el
+  tomacorriente.
+- **Las borneras son WAGO push-button de 2,5 mm²**, según la cotización de Electro Beyco, no las
+  UK-2.5B ni el kit Dinkle DK4N que contemplaba el anteproyecto.
+
+> **Estado.** El montaje del sistema de control sobre el panel corresponde a la Etapa 2 y todavía
+> no se ejecuta; la distribución anterior es la prevista y puede ajustarse durante el montaje.
 
 ### Señales disponibles para los dispositivos de campo
 
@@ -267,8 +312,10 @@ Los montos en colones de los rubros Arduino son aproximados y deben actualizarse
 vigente al momento de la adquisición. Las cotizaciones nacionales tienen validez hasta las fechas
 indicadas en cada documento.
 
-> **Pendiente.** La tarjeta optoacopladora PC817 (≈ $5,95) entró al diseño después de elaborado el
-> presupuesto y **aún no tiene fila propia** en esta tabla; el total todavía no la incluye.
+> **Pendiente.** La tarjeta optoacopladora PC817 (≈ $5,95) se adquirió por aparte, después de
+> elaborado el presupuesto, y **sí se contemplará** en él. Todavía no tiene fila propia en esta
+> tabla y el total no la incluye; al agregarla habrá que actualizar la cifra también en el informe,
+> en la presentación y en el guion.
 
 ---
 
