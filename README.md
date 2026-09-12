@@ -27,20 +27,40 @@ La Plataforma 1 está pensada para ser **reutilizable** — cualquier docente o 
   - Puerto AUX lateral para encadenar módulos de expansión
   - Programable en Arduino IDE y PLC IDE (LADDER, LBD, Structured Text)
 
-### Módulos de expansión (encadenados por bus AUX)
-El orden en el riel DIN es fijo: **Opta → SIMUL8 → A0602**
+### Módulo de expansión real (encadenado por bus AUX)
 
 | Módulo | Función | Terminales |
 |--------|---------|------------|
-| **SIMUL8** | 8 switches manuales que simulan señales digitales de 24V hacia I1–I8 del Opta. Herramienta didáctica — permite probar lógica sin sensores físicos. | 8 canales digitales |
 | **A0602 (AFX00007)** | Módulo analógico completo. 6 entradas programables (**I1–I2:** 0–10V / 4–20mA / **PT100**; **I3–I6:** solo 0–10V / 4–20mA, sin PT100), 2 salidas analógicas O1–O2 (0–10V o 4–20mA), 4 salidas PWM P1–P4. | AI1–AI6, AO1–AO2, P1–P4 |
 
 > **Nota:** El módulo **CELSIUS** (entradas de termopar tipo K/J/T) forma parte del kit pero se ubicará en la **Plataforma 2**, junto a los sensores de campo, no en el gabinete.
 
+### SIMUL8 — no es un módulo AUX, es una placa aparte cableada a tornillo
+
+**Corrección (verificado en el datasheet oficial `ABX00097-datasheet.pdf`, docs.arduino.cc, CC BY-SA 4.0):** a diferencia del A0602, el **SIMUL8 no se conecta por el puerto AUX del Opta** — no tiene ese puerto. Es una placa de simulación de entradas + distribución de energía, completamente independiente, que se cablea a mano con tornillos:
+
+- **8 switches manuales**, cada uno con su propio terminal de señal: **0V si está en OFF, ~10V si está en ON** (no 24V — dato corregido).
+- **Bloque de alimentación propio** (4 tornillos: `+24V +24V GND GND`) que recibe energía por su propio **barrel jack** (con la fuente 24V/1A del kit) y la **reparte** hacia el Opta y/o el DIN Celsius mediante cable.
+- Para usarlo hay que tender **8 cables puente** (uno por switch, hacia I1–I8 del Opta u otro canal libre) **más** un cable de GND común entre el bloque de alimentación del SIMUL8 y el "−" del Opta — sin esa tierra común, las lecturas de los switches no son confiables.
+
+```
+SIMUL8                                          Opta
+┌─────────────────────┐                      ┌───────────┐
+│ Switch 1 ──► S1 ─────┼──── cable puente ───►│ I1        │
+│ Switch 2 ──► S2 ─────┼──── cable puente ───►│ I2        │
+│   ...                │        ...           │  ...      │
+│ Switch 8 ──► S8 ─────┼──── cable puente ───►│ I8        │
+│                       │                      │           │
+│ GND (bloque poder) ───┼──── cable puente ───►│ − (GND)   │
+└─────────────────────┘                      └───────────┘
+```
+
+El orden físico en el riel DIN sigue siendo libre de elegir, pero **solo el A0602 se conecta por AUX al Opta**; el SIMUL8 puede ir en cualquier posición del riel porque no depende de estar "pegado" a nada — solo necesita alcance de cable hasta el Opta y hasta su propia fuente de 24V.
+
 ### Accesorios incluidos
 - Fuente de alimentación 24V DC (conecta al tomacorriente 110VAC)
-- Cables para bus AUX entre módulos
-- Cables de conexión generales
+- Cable para el bus AUX (solo entre Opta y A0602)
+- Cables de conexión generales (para el cableado manual del SIMUL8 y de campo)
 
 ---
 
