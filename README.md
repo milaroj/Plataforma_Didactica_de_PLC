@@ -57,7 +57,23 @@ Esto es lo que realmente ves en el cuerpo del Opta y del A0602 — necesario ant
 | Inferior izquierda | **Salidas relé 1–2** | 4 tornillos: común + NA de O1, común + NA de O2 — rotulado "Output 10A" |
 | Inferior derecha | **Salidas relé 3–4** | 4 tornillos: común + NA de O3, común + NA de O4 — rotulado "Output 10A" |
 
-**Por qué "O1" parece uno solo pero hay 2 bloques de salida:** el Opta tiene 4 relés (O1–O4), pero el conector físico de salidas viene partido en **2 piezas extraíbles**: una lleva O1+O2, la otra lleva O3+O4. Dentro de cada bloque, cada relé individual (O1, por ejemplo) usa **2 tornillos propios** (común y normalmente abierto) — no dos bloques. Es decir: 4 salidas × 2 tornillos = 8 tornillos, repartidos en 2 conectores de 4 tornillos cada uno.
+**Por qué "O1" parece uno solo pero hay 2 bloques de salida:** el Opta tiene 4 relés (O1–O4), pero el conector físico de salidas viene partido en **2 piezas extraíbles**: una lleva O1+O2, la otra lleva O3+O4. Dentro de cada bloque, cada relé individual (O1, por ejemplo) usa **2 tornillos propios** (común y normalmente abierto) — no dos bloques. Es decir: 4 salidas × 2 tornillos = 8 tornillos, repartidos en 2 conectores de 4 tornillos cada uno (2 relés por conector), y los 2 tornillos de O1 están juntos, en el mismo conector que O2 — O1 no se reparte entre los 2 bloques.
+
+#### Cómo se cablea una sola salida de relé (ej. O1)
+
+"O1 es una sola salida" se refiere a que es un solo interruptor controlado por el programa del PLC, no a que use un solo cable. Todo interruptor, para servir de algo, va insertado en medio de un circuito, así que necesita sus 2 extremos conectados: uno hacia la fuente, el otro hacia la carga. Es igual que un apagador de pared: es "un solo interruptor" y aun así tiene 2 tornillos.
+
+```
+ +24V DC (+) ──── Tornillo 1 de O1 ══[contacto interno]══ Tornillo 2 de O1 ──── CARGA ──── GND / 24V DC (−)
+                                    (el PLC cierra este
+                                     contacto al activar
+                                     O1 = ON en el programa)
+```
+
+- El contacto es seco y no polarizado: no importa cuál de los 2 tornillos se use como entrada y cuál como salida.
+- La energía que mueve la carga (piloto, bobina de contactor, electroválvula) viene de la fuente externa de 24V, no del Opta — el relé solo abre/cierra el paso.
+- Con O1 = OFF en el programa, el contacto está abierto: no hay continuidad entre sus 2 tornillos y la carga no recibe corriente.
+- O2, O3 y O4 se cablean igual, cada uno con su propio lazo fuente → contacto → carga.
 
 ### Módulo A0602 / AFX00007
 
@@ -71,6 +87,63 @@ Esto es lo que realmente ves en el cuerpo del Opta y del A0602 — necesario ant
 | Inferior derecha | **I5, I6 + salida O2** | `+I5− +I6− +O2−` (6 tornillos) |
 
 **Aquí está la verdadera fuente de la confusión:** en el A0602, O1 y O2 **no comparten bloque** — cada salida analógica vive en su propio conector, mezclada con dos entradas del mismo lado (O1 junto a I3/I4; O2 junto a I5/I6). Por eso "O1" aparece una única vez (un solo par +/−, en el bloque izquierdo) y sin embargo el módulo tiene 2 bloques de salida en esa fila: no es que O1 tenga 2 bloques, es que **cada bloque aporta una salida distinta** (uno da O1, el otro da O2). No hay que buscar un segundo par de terminales para O1 en el otro bloque — ese bloque es el de O2.
+
+> **Dato clave (verificado en el datasheet oficial, `AFX00007-datasheet.pdf`, docs.arduino.cc, CC BY-SA 4.0):** los 8 canales del A0602 (I1–I6, O1, O2) son **eléctricamente idénticos y configurables por software** como entrada o salida. "O1"/"O2" es solo la rotulación de fábrica para el uso típico — no hay una diferencia de hardware entre un canal "I" y uno "O". Se recomienda un **máximo de 2 canales activos como salida al mismo tiempo** (por disipación de calor).
+>
+> **Todos los terminales marcados "−" en el A0602 son el mismo nodo eléctrico** — el de I3, el de I4, el de O1, el de I5/I6/O2 y el de la propia alimentación 12–24V del módulo. El datasheet lo dice explícito: *"All screw terminals marked with '-' are shorted together. There is no galvanic isolation between the board and its DC power supply."* A diferencia del relé del Opta (aislado, sin referencia), aquí **no hay aislamiento**: si conectas un sensor con su propia fuente, esa fuente debe compartir GND con el A0602 o vas a tener un problema de referencia.
+
+#### Cómo se cablea una entrada genérica (ej. +I3 / I3−)
+
+Igual que con O1 del Opta: "I3" es **un solo canal**, no dos. Los 2 tornillos que ves —`+I3` y el `−` junto a él— son la pareja completa de ese canal: uno recibe la señal, el otro es la referencia. No son de canales distintos.
+
+- **`+I3`** → aquí entra la señal del sensor (0–10V, o el lazo de 4–20mA).
+- **`I3−`** → referencia/retorno — el mismo nodo que todos los demás "−" del módulo (ver nota de arriba).
+
+**Caso 1 — sensor de 3 hilos con salida 0–10V (ej. sensor de presión o nivel):**
+```
+Fuente externa 24V (+) ────────────────► alimentación (+) del sensor
+Fuente externa 24V (−) ──────┬─────────► alimentación (−) del sensor
+                              └─────────► I3−   (mismo GND — un solo nodo)
+Sensor: salida de señal (0–10V) ───────► +I3
+```
+
+**Caso 2 — transmisor de 2 hilos, lazo 4–20mA (loop powered):**
+```
+Fuente externa 24V (+) ──► transmisor (+) ──► salida de lazo ──► +I3
+                                                                    │
+                                                        (resistencia interna
+                                                         de medición del A0602)
+                                                                    │
+Fuente externa 24V (−) ◄─────────────────────────────────────────── I3−
+```
+El A0602 queda insertado "en serie" dentro del lazo: la corriente entra por `+I3`, pasa por una resistencia interna de medición, y regresa por `I3−` hacia la fuente. I4, I5, I6, y O1/O2 (cuando se usan como entrada) se cablean exactamente igual.
+
+#### Cómo se cablea una salida analógica (AO1/AO2)
+
+A diferencia del relé, aquí el módulo **genera activamente** la señal — no es un contacto seco.
+
+```
+A0602 (con su propia fuente 12–24V)
+   │
+   ├── +O1 ──────────────────► entrada de señal del dispositivo (ej. válvula proporcional)
+   │        (0...11V ó 0...25mA, configurado por software; el rótulo comercial dice "0–10V/4–20mA")
+   │
+   └── O1− ──────────────────► retorno / GND del mismo dispositivo (mismo nodo que todo el módulo)
+```
+Rangos reales del datasheet: **0–11V** en modo voltaje (carga resistiva 500 Ω–100 kΩ) o **0–25mA** en modo corriente. O2 se cablea igual, en su propio bloque junto a I5/I6.
+
+#### Cómo se cablean las salidas PWM (P1–P4)
+
+Estas **no generan su propio voltaje** — el A0602 solo conmuta una tensión que tú le suministras en el pin `V_PWM` (8–24 VDC), según el duty cycle programado (hay un driver de medio puente adentro).
+
+```
+Fuente externa 8–24V (+) ──────────────────────► V_PWM
+Fuente externa 8–24V (−) ──────────────────────► terminal "−" (mismo nodo común del módulo)
+
+V_PWM ══[conmutado por el PLC, duty cycle 0–100% programable]══ P1+ ──── CARGA ──── "−"
+```
+- `P1+`/`P2+` comparten bloque físico con `V_PWM`; `P3+`/`P4+` comparten el otro bloque con el `−` común.
+- Sin `V_PWM` alimentado, P1–P4 no hacen nada — no hay tensión que conmutar.
 
 ---
 
