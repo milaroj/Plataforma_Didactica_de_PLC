@@ -1,0 +1,29 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="metodologia" name="Procedimiento metodologico">
+    <mxGraphModel dx="900" dy="400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="200" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="a" value="Reconocimiento&lt;br&gt;del problema" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FB;strokeColor=#16324F;strokeWidth=2;fontColor=#000000;fontSize=14;fontFamily=Helvetica;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="130" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="b" value="Obtención y&lt;br&gt;análisis de&lt;br&gt;información" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FB;strokeColor=#16324F;strokeWidth=2;fontColor=#000000;fontSize=14;fontFamily=Helvetica;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="200" y="60" width="130" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="c" value="Evaluación de&lt;br&gt;alternativas&lt;br&gt;(matriz de Pugh)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D9ECEC;strokeColor=#008184;strokeWidth=2;fontColor=#000000;fontSize=14;fontFamily=Helvetica;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="60" width="130" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d" value="Implementación" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FB;strokeColor=#16324F;strokeWidth=2;fontColor=#000000;fontSize=14;fontFamily=Helvetica;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="520" y="60" width="130" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="e" value="Reevaluación&lt;br&gt;y rediseño" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FB;strokeColor=#16324F;strokeWidth=2;fontColor=#000000;fontSize=14;fontFamily=Helvetica;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="680" y="60" width="130" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="f1" style="edgeStyle=none;html=1;endArrow=classic;endFill=1;strokeColor=#16324F;strokeWidth=2;" edge="1" parent="1" source="a" target="b"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f2" style="edgeStyle=none;html=1;endArrow=classic;endFill=1;strokeColor=#16324F;strokeWidth=2;" edge="1" parent="1" source="b" target="c"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f3" style="edgeStyle=none;html=1;endArrow=classic;endFill=1;strokeColor=#16324F;strokeWidth=2;" edge="1" parent="1" source="c" target="d"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f4" style="edgeStyle=none;html=1;endArrow=classic;endFill=1;strokeColor=#16324F;strokeWidth=2;" edge="1" parent="1" source="d" target="e"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,299 +1,119 @@
-# Plataforma Didáctica PLC — Arduino Opta
-**Proyecto de automatización industrial con fines educativos y demostrativos**
+# Plataforma didáctica de automatización industrial con PLC
 
----
+Trabajo Final de Graduación de la carrera de Ingeniería Electrónica, Instituto Tecnológico de Costa Rica, Campus Tecnológico Local San Carlos.
 
-## Resumen del proyecto
+**Diseño de una plataforma didáctica para la enseñanza de PLC de la Escuela de Ingeniería Electrónica del Campus Tecnológico Local San Carlos**
 
-Se está diseñando una **plataforma didáctica de aprendizaje** basada en el Arduino Opta (micro-PLC industrial). El sistema se divide en dos plataformas físicas separadas:
+- Autora: María del Milagro Rojas Sánchez
+- Profesor asesor: Ing. Pablo César Rodríguez Vargas
+- Profesor lector: Ing. Leonardo Cardinale Villalobos
+- Noviembre de 2026
 
-- **Plataforma 1 — Gabinete PLC:** contiene todo el hardware de control, cerrado y protegido. Solo expone borneras y ventanas de acceso controlado al usuario.
-- **Plataforma 2 — Tablero de campo:** contiene sensores y actuadores industriales a 24V DC, conectados manualmente a la Plataforma 1 mediante cableado por las borneras expuestas. (Pendiente de diseño.)
+![Plataforma completa](hardware/fotos/Plataforma_completa.jpeg)
 
-La Plataforma 1 está pensada para ser **reutilizable** — cualquier docente o estudiante puede conectarle su propia plataforma de campo sin modificar el gabinete.
+## Resumen
 
----
+El programa de Ingeniería Electrónica del Campus Tecnológico Local San Carlos del ITCR carecía de una plataforma propia para la enseñanza práctica de automatización con PLC.
 
-## Kit de hardware disponible
+Se diseñó y construyó una plataforma didáctica modular basada en el Arduino Opta WiFi, el kit AKX00051 y el módulo analógico AFX00007, montada en un panel de control con riel DIN sobre una estructura de perfil de aluminio T-slot. Una regleta de borneras identificadas, con cableado codificado por tipo de señal, permite conectar los dispositivos de campo sin intervenir el hardware de control, y una tarjeta optoacopladora PC817 permite accionar circuitos propios del estudiante a la tensión que requieran, entre 3,6 y 30 V. Dos prácticas en Ladder Diagram, documentadas en una guía de laboratorio, validaron la entrada digital, la salida de relé, la entrada y la salida analógicas y la salida PWM.
 
-**Arduino PLC Starter Kit (AKX00051)** — desarrollado por Arduino Education en colaboración con Finder. Incluye:
+## Contenido del repositorio
 
-### Unidad principal
-- **Arduino Opta WiFi** — micro-PLC con:
-  - 8 entradas digitales (0–24V DC), compatibles NPN y PNP
-  - 4 salidas tipo relé (contacto seco, NA, hasta 250VAC/5A por relé)
-  - WiFi 802.11 b/g/n + Bluetooth LE + Ethernet
-  - Puerto USB-C para programación
-  - Puerto AUX lateral para encadenar módulos de expansión
-  - Programable en Arduino IDE y PLC IDE (LADDER, LBD, Structured Text)
+| Carpeta | Contenido |
+|---|---|
+| [`entregables/`](entregables) | Informe final, guía de laboratorio para el estudiante y presentación de la defensa, en PDF |
+| [`diagramas/`](diagramas) | Diagrama eléctrico de la plataforma, diagramas de las prácticas 1 y 2, plano del panel de control y diagrama de la metodología, en PDF y en su fuente de draw.io |
+| [`piezas/`](piezas) | Piezas de unión diseñadas para la estructura, arandela de corte láser y modelo de ensamble |
+| [`hardware/`](hardware) | Fotografías de la plataforma, hoja de datos del DIN Celsius y fotografías de los cables del EasyPort |
+| [`practicas/`](practicas) | Proyectos de FluidSIM y ejemplos realizados en el banco de trabajo |
+| [`latex/`](latex) | Código fuente LaTeX del informe, de la guía y de la presentación, con sus imágenes |
 
-### Módulo de expansión real (encadenado por bus AUX)
+## Entregables
 
-| Módulo | Función | Terminales |
-|--------|---------|------------|
-| **A0602 (AFX00007)** | Módulo analógico completo. 6 entradas programables (**I1–I2:** 0–10V / 4–20mA / **PT100**; **I3–I6:** solo 0–10V / 4–20mA, sin PT100), 2 salidas analógicas O1–O2 (0–10V o 4–20mA), 4 salidas PWM P1–P4. | AI1–AI6, AO1–AO2, P1–P4 |
+- [Informe final](entregables/Informe_Final_TFG.pdf). Se omite la página de la declaratoria de autenticidad.
+- [Guía de laboratorio para el estudiante](entregables/Guia_PLC_Estudiante.pdf). Incluye la configuración de FluidSIM y del EasyPort y las dos prácticas paso a paso.
+- [Presentación de la defensa](entregables/Presentacion_Defensa.pdf).
 
-> **Nota:** El módulo **CELSIUS** (entradas de termopar tipo K/J/T) forma parte del kit pero se ubicará en la **Plataforma 2**, junto a los sensores de campo, no en el gabinete.
+## Hardware de la plataforma
 
-### SIMUL8 — no es un módulo AUX, es una placa aparte cableada a tornillo
+| Elemento | Descripción |
+|---|---|
+| Arduino Opta WiFi (kit AKX00051) | Micro PLC programable con los lenguajes de IEC 61131-3 en el Arduino PLC IDE. 8 entradas de 0 a 24 V DC y 4 salidas de relé |
+| Módulo analógico AFX00007 (A0602) | Entradas y salidas analógicas de 0 a 10 V y salidas PWM, conectado al Opta por el bus AUX. Requiere su propia alimentación de 12 a 24 V DC |
+| DIN Simul8 (kit AKX00051) | Ocho interruptores para simular entradas digitales y bloque de distribución de 24 V |
+| DIN Celsius (kit AKX00051) | Sensor de temperatura de prueba con salida de 0 a 10 V y dos calentadores. Se usa fuera del panel |
+| Tarjeta optoacopladora PC817 de 4 canales | Acopla las salidas de 24 V con circuitos del estudiante de 3,6 a 30 V |
+| Festo EasyPort USB (D16A) | Enlaza la plataforma física con la planta virtual de FluidSIM y lee la salida analógica |
+| Estructura | Seis perfiles de aluminio T-slot 20x20 mm de 500 mm, cuatro piezas de unión impresas en PLA y panel de acrílico inclinado a 70° |
 
-**Corrección (verificado en el datasheet oficial `ABX00097-datasheet.pdf`, docs.arduino.cc, CC BY-SA 4.0):** a diferencia del A0602, el **SIMUL8 no se conecta por el puerto AUX del Opta** — no tiene ese puerto. Es una placa de simulación de entradas + distribución de energía, completamente independiente, que se cablea a mano con tornillos:
+El cableado sigue un código de colores por tipo de señal: rojo para +24 V (etiqueta 1), negro para 0 V (etiqueta 0), verde para entradas digitales, café para salidas de relé, azul para entradas analógicas, marrón-naranja para salidas analógicas y blanco para PWM. Cada hilo lleva una etiqueta con el número de su canal.
 
-- **8 switches manuales**, cada uno con su propio terminal de señal: **0V si está en OFF, ~10V si está en ON** (no 24V — dato corregido).
-- **Bloque de alimentación propio** (4 tornillos: `+24V +24V GND GND`) que recibe energía por su propio **barrel jack** (con la fuente 24V/1A del kit) y la **reparte** hacia el Opta y/o el DIN Celsius mediante cable.
-- Para usarlo hay que tender **8 cables puente** (uno por switch, hacia I1–I8 del Opta u otro canal libre) **más** un cable de GND común entre el bloque de alimentación del SIMUL8 y el "−" del Opta — sin esa tierra común, las lecturas de los switches no son confiables.
+El presupuesto total de la plataforma es de ₡478.780,42. El detalle y la comparación de costos con un PLC Siemens S7-1500 y con el Festo EduTrainer están en el Apéndice A y en la Sección 5.4 del informe.
 
-```
-SIMUL8                                          Opta
-┌─────────────────────┐                      ┌───────────┐
-│ Switch 1 ──► S1 ─────┼──── cable puente ───►│ I1        │
-│ Switch 2 ──► S2 ─────┼──── cable puente ───►│ I2        │
-│   ...                │        ...           │  ...      │
-│ Switch 8 ──► S8 ─────┼──── cable puente ───►│ I8        │
-│                       │                      │           │
-│ GND (bloque poder) ───┼──── cable puente ───►│ − (GND)   │
-└─────────────────────┘                      └───────────┘
-```
+## Piezas diseñadas
 
-El orden físico en el riel DIN sigue siendo libre de elegir, pero **solo el A0602 se conecta por AUX al Opta**; el SIMUL8 puede ir en cualquier posición del riel porque no depende de estar "pegado" a nada — solo necesita alcance de cable hasta el Opta y hasta su propia fuente de 24V.
+Las uniones inferiores de la estructura no se resuelven con las escuadras normalizadas del sistema T-slot, porque en ellas concurren tres perfiles y uno llega inclinado a 70°. Por eso se diseñaron en Autodesk Fusion 360 cuatro piezas de unión propias, impresas en PLA:
 
-### Accesorios incluidos
-- Fuente de alimentación 24V DC (conecta al tomacorriente 110VAC)
-- Cable para el bus AUX (solo entre Opta y A0602)
-- Cables de conexión generales (para el cableado manual del SIMUL8 y de campo)
+- Dos piezas delanteras con angulación de 70°, que unen el larguero de la base, el soporte lateral y el montante del panel.
+- Dos codos traseros, para las esquinas posteriores de la base.
 
----
+| Pieza delantera (vista lateral) | Codo trasero |
+|---|---|
+| ![Pieza delantera](piezas/Pieza_delantera_angulo_vistalateral.png) | ![Codo trasero](piezas/Pieza_trasera_codo_vistaperfil.png) |
 
-## Distribución física de las borneras de fábrica (para cablear Riel 1)
+Plan de corte de la perfilería (seis perfiles de 500 mm):
 
-Esto es lo que realmente ves en el cuerpo del Opta y del A0602 — necesario antes de bajar cable hacia las borneras de paso de Riel 3. **No confundir el bloque físico (el conector que se puede desenchufar) con el número de señal (O1, I1, etc.); no siempre coinciden 1 a 1.**
+| Elemento | Longitud final | Perfiles de origen | Requiere corte |
+|---|---|---|---|
+| Montantes inclinados a 70° | 500 mm | 2 | No |
+| Largueros longitudinales de la base | 500 mm | 2 | No |
+| Soportes laterales inferiores | 250 mm | 1 (seccionado a la mitad) | Sí |
+| Soporte trasero | 435 mm | 1 (recortado 6,5 cm) | Sí |
 
-### Arduino Opta (unidad principal)
+## Diagramas
 
-| Fila | Bloque | Terminales |
-|------|--------|-----------|
-| Superior izquierda | Alimentación | `+  +  −  −` (12–24V DC, dos pares para puentear) |
-| Superior derecha | Entradas | `I1 I2 I3 I4 I5 I6 I7 I8` (0–24V DC) |
-| Inferior izquierda | **Salidas relé 1–2** | 4 tornillos: común + NA de O1, común + NA de O2 — rotulado "Output 10A" |
-| Inferior derecha | **Salidas relé 3–4** | 4 tornillos: común + NA de O3, común + NA de O4 — rotulado "Output 10A" |
+- [Diagrama eléctrico de la plataforma](diagramas/pdf/Diagrama_Electrico_Plataforma.pdf)
+- [Diagrama eléctrico de la Práctica 1](diagramas/pdf/Diagrama_Electrico_Practica1.pdf)
+- [Diagrama eléctrico de la Práctica 2](diagramas/pdf/Diagrama_Electrico_Practica2.pdf)
+- [Plano del panel de control](diagramas/pdf/Plano_Panel_Control.pdf)
+- [Diagrama de la metodología](diagramas/pdf/Diagrama_Metodologia.pdf)
 
-**Por qué "O1" parece uno solo pero hay 2 bloques de salida:** el Opta tiene 4 relés (O1–O4), pero el conector físico de salidas viene partido en **2 piezas extraíbles**: una lleva O1+O2, la otra lleva O3+O4. Dentro de cada bloque, cada relé individual (O1, por ejemplo) usa **2 tornillos propios** (común y normalmente abierto) — no dos bloques. Es decir: 4 salidas × 2 tornillos = 8 tornillos, repartidos en 2 conectores de 4 tornillos cada uno (2 relés por conector), y los 2 tornillos de O1 están juntos, en el mismo conector que O2 — O1 no se reparte entre los 2 bloques.
+Las fuentes `.drawio` se abren en [app.diagrams.net](https://app.diagrams.net). El diagrama eléctrico de la plataforma (hoja 2) y el de la Práctica 1 (hoja 3) están en el mismo archivo, `Diagrama_Electrico_Plataforma.drawio`.
 
-#### Cómo se cablea una sola salida de relé (ej. O1)
+## Prácticas de laboratorio
 
-"O1 es una sola salida" se refiere a que es un solo interruptor controlado por el programa del PLC, no a que use un solo cable. Todo interruptor, para servir de algo, va insertado en medio de un circuito, así que necesita sus 2 extremos conectados: uno hacia la fuente, el otro hacia la carga. Es igual que un apagador de pared: es "un solo interruptor" y aun así tiene 2 tornillos.
+1. **Práctica 1. Secuencia de cinco estados.** Programa en Ladder que gobierna un cilindro simulado en FluidSIM. Las entradas llegan desde pulsadores y las salidas de relé del Opta se leen en FluidSIM a través del EasyPort.
+2. **Práctica 2. Sistema de enfriamiento con ventilación regulable.** El DIN Celsius representa un recinto que se calienta. El controlador lee la temperatura por la entrada analógica, regula un ventilador con la salida PWM y envía la señal de control al EasyPort por la salida analógica.
 
-```
- +24V DC (+) ──── Tornillo 1 de O1 ══[contacto interno]══ Tornillo 2 de O1 ──── CARGA ──── GND / 24V DC (−)
-                                    (el PLC cierra este
-                                     contacto al activar
-                                     O1 = ON en el programa)
-```
+El procedimiento paso a paso de ambas prácticas está en la [guía de laboratorio](entregables/Guia_PLC_Estudiante.pdf). Los proyectos de FluidSIM están en [`practicas/fluidsim/`](practicas/fluidsim).
 
-- El contacto es seco y no polarizado: no importa cuál de los 2 tornillos se use como entrada y cuál como salida.
-- La energía que mueve la carga (piloto, bobina de contactor, electroválvula) viene de la fuente externa de 24V, no del Opta — el relé solo abre/cierra el paso.
-- Con O1 = OFF en el programa, el contacto está abierto: no hay continuidad entre sus 2 tornillos y la carga no recibe corriente.
-- O2, O3 y O4 se cablean igual, cada uno con su propio lazo fuente → contacto → carga.
+## Manuales y hojas de datos
 
-### Módulo A0602 / AFX00007
+Las hojas de datos de Arduino se publican con licencia CC BY-SA 4.0. Los manuales de Festo y del Arduino PLC IDE tienen derechos reservados, por lo que no se incluyen en el repositorio y se indican sus fuentes.
 
-| Fila | Bloque | Terminales |
-|------|--------|-----------|
-| Superior izquierda | Alimentación propia | `+  +  −  −` (12–24V DC, independiente del Opta) |
-| Superior derecha | Entradas I1/I2 | `+I1− IC1   +I2− IC2` (0–10V/4–20mA/PT100) |
-| Media izquierda | PWM | `P1+  P2+  V_PWM` |
-| Media derecha | PWM | `−  P3+  P4+` |
-| Inferior izquierda | **I3, I4 + salida O1** | `+I3− +I4− +O1−` (6 tornillos) |
-| Inferior derecha | **I5, I6 + salida O2** | `+I5− +I6− +O2−` (6 tornillos) |
+| Documento | Fuente |
+|---|---|
+| Arduino Opta, hoja de datos (AFX00001, AFX00002, AFX00003) | [docs.arduino.cc](https://docs.arduino.cc/resources/datasheets/AFX00001-AFX00002-AFX00003-datasheet.pdf) |
+| Módulo analógico AFX00007, hoja de datos | [docs.arduino.cc](https://docs.arduino.cc/resources/datasheets/AFX00007-datasheet.pdf) |
+| Arduino PLC Starter Kit AKX00051, hoja de datos | [docs.arduino.cc](https://docs.arduino.cc/resources/datasheets/AKX00051-datasheet.pdf) |
+| DIN Celsius ABX00098, hoja de datos | [incluida](hardware/datasheets/ABX00098-datasheet.pdf), también en [docs.arduino.cc](https://docs.arduino.cc/resources/datasheets/ABX00098-datasheet.pdf) |
+| Manual de usuario del Opta | [docs.arduino.cc](https://docs.arduino.cc/tutorials/opta/user-manual/) |
+| Manual del Arduino PLC IDE | Se instala con el Arduino PLC IDE, en la carpeta `Docs` del programa |
+| Festo EasyPort USB, manual (ref. 721876, ed. 10/2011) | Festo Didactic |
+| Cable de E/S con conector SysLink, hoja de datos (ref. 380156) | Festo Didactic, [página del producto](https://www.festo.com/mx/es/p/cable-de-datos-de-i-o-con-conector-syslink-en-un-lado-id_PROD_DID_167122) |
+| FluidSIM | [Festo](https://www.festo.com/us/en/e/technical-education/digital-learning/virtual-simulation-and-modeling/fluidsim-id_1663056) |
 
-**Aquí está la verdadera fuente de la confusión:** en el A0602, O1 y O2 **no comparten bloque** — cada salida analógica vive en su propio conector, mezclada con dos entradas del mismo lado (O1 junto a I3/I4; O2 junto a I5/I6). Por eso "O1" aparece una única vez (un solo par +/−, en el bloque izquierdo) y sin embargo el módulo tiene 2 bloques de salida en esa fila: no es que O1 tenga 2 bloques, es que **cada bloque aporta una salida distinta** (uno da O1, el otro da O2). No hay que buscar un segundo par de terminales para O1 en el otro bloque — ese bloque es el de O2.
+La asignación de hilos del cable SysLink y del cable analógico Sub-D 15 del EasyPort, con los colores verificados en el banco, está en la Sección 1.3 de la guía de laboratorio. Las fotografías de los cables están en [`hardware/easyport_cables/`](hardware/easyport_cables).
 
-> **Dato clave (verificado en el datasheet oficial, `AFX00007-datasheet.pdf`, docs.arduino.cc, CC BY-SA 4.0):** los 8 canales del A0602 (I1–I6, O1, O2) son **eléctricamente idénticos y configurables por software** como entrada o salida. "O1"/"O2" es solo la rotulación de fábrica para el uso típico — no hay una diferencia de hardware entre un canal "I" y uno "O". Se recomienda un **máximo de 2 canales activos como salida al mismo tiempo** (por disipación de calor).
->
-> **Todos los terminales marcados "−" en el A0602 son el mismo nodo eléctrico** — el de I3, el de I4, el de O1, el de I5/I6/O2 y el de la propia alimentación 12–24V del módulo. El datasheet lo dice explícito: *"All screw terminals marked with '-' are shorted together. There is no galvanic isolation between the board and its DC power supply."* A diferencia del relé del Opta (aislado, sin referencia), aquí **no hay aislamiento**: si conectas un sensor con su propia fuente, esa fuente debe compartir GND con el A0602 o vas a tener un problema de referencia.
+## Compilar los documentos
 
-#### Cómo se cablea una entrada genérica (ej. +I3 / I3−)
-
-Igual que con O1 del Opta: "I3" es **un solo canal**, no dos. Los 2 tornillos que ves —`+I3` y el `−` junto a él— son la pareja completa de ese canal: uno recibe la señal, el otro es la referencia. No son de canales distintos.
-
-- **`+I3`** → aquí entra la señal del sensor (0–10V, o el lazo de 4–20mA).
-- **`I3−`** → referencia/retorno — el mismo nodo que todos los demás "−" del módulo (ver nota de arriba).
-
-**Caso 1 — sensor de 3 hilos con salida 0–10V (ej. sensor de presión o nivel):**
-```
-Fuente externa 24V (+) ────────────────► alimentación (+) del sensor
-Fuente externa 24V (−) ──────┬─────────► alimentación (−) del sensor
-                              └─────────► I3−   (mismo GND — un solo nodo)
-Sensor: salida de señal (0–10V) ───────► +I3
-```
-
-**Caso 2 — transmisor de 2 hilos, lazo 4–20mA (loop powered):**
-```
-Fuente externa 24V (+) ──► transmisor (+) ──► salida de lazo ──► +I3
-                                                                    │
-                                                        (resistencia interna
-                                                         de medición del A0602)
-                                                                    │
-Fuente externa 24V (−) ◄─────────────────────────────────────────── I3−
-```
-El A0602 queda insertado "en serie" dentro del lazo: la corriente entra por `+I3`, pasa por una resistencia interna de medición, y regresa por `I3−` hacia la fuente. I4, I5, I6, y O1/O2 (cuando se usan como entrada) se cablean exactamente igual.
-
-#### Cómo se cablea una salida analógica (AO1/AO2)
-
-A diferencia del relé, aquí el módulo **genera activamente** la señal — no es un contacto seco.
+Los documentos se compilan con `pdflatex` (MiKTeX o TeX Live) desde la carpeta [`latex/`](latex):
 
 ```
-A0602 (con su propia fuente 12–24V)
-   │
-   ├── +O1 ──────────────────► entrada de señal del dispositivo (ej. válvula proporcional)
-   │        (0...11V ó 0...25mA, configurado por software; el rótulo comercial dice "0–10V/4–20mA")
-   │
-   └── O1− ──────────────────► retorno / GND del mismo dispositivo (mismo nodo que todo el módulo)
-```
-Rangos reales del datasheet: **0–11V** en modo voltaje (carga resistiva 500 Ω–100 kΩ) o **0–25mA** en modo corriente. O2 se cablea igual, en su propio bloque junto a I5/I6.
-
-#### Cómo se cablean las salidas PWM (P1–P4)
-
-Estas **no generan su propio voltaje** — el A0602 solo conmuta una tensión que tú le suministras en el pin `V_PWM` (8–24 VDC), según el duty cycle programado (hay un driver de medio puente adentro).
-
-```
-Fuente externa 8–24V (+) ──────────────────────► V_PWM
-Fuente externa 8–24V (−) ──────────────────────► terminal "−" (mismo nodo común del módulo)
-
-V_PWM ══[conmutado por el PLC, duty cycle 0–100% programable]══ P1+ ──── CARGA ──── "−"
-```
-- `P1+`/`P2+` comparten bloque físico con `V_PWM`; `P3+`/`P4+` comparten el otro bloque con el `−` común.
-- Sin `V_PWM` alimentado, P1–P4 no hacen nada — no hay tensión que conmutar.
-
----
-
-## Diseño del Gabinete — Plataforma 1
-
-### Dimensiones
-**500mm ancho × 600mm alto × 160mm profundidad**
-
-### Distribución interna — 3 rieles DIN
-```
-┌─────────────────────────────────────────────┐
-│  CANALETA SUPERIOR                          │
-├─────────────────────────────────────────────┤
-│  RIEL 1 — Componentes activos               │
-│  [Fuente 24V][Opta][A0602][ libre ][ libre ] │
-│  (no accesible al usuario)                  │
-├─────────────────────────────────────────────┤
-│  CANALETA MEDIA 1                           │
-├─────────────────────────────────────────────┤
-│  RIEL 2 — Interacción usuario               │
-│  [SIMUL8 ←switches→][8 pares +24V/GND]      │
-│  ↑ VENTANA 1 en tapa frontal                │
-├─────────────────────────────────────────────┤
-│  CANALETA MEDIA 2                           │
-├─────────────────────────────────────────────┤
-│  RIEL 3 — Borneras de paso señales campo    │
-│  [I1–I8+GND][O1–O4][AI1–AI6][AO+PWM]       │
-│  ↑ VENTANA 2 en tapa frontal                │
-├─────────────────────────────────────────────┤
-│  Prensaestopa 110VAC │ USB-C extensor        │
-└─────────────────────────────────────────────┘
+pdflatex Documento_TFG.tex        (2 pasadas)
+pdflatex Presentacion_Defensa.tex (2 pasadas)
+cd Guía_Estudiante
+pdflatex Guia_PLC_Estudiante.tex  (3 pasadas)
 ```
 
-### Ventanas en tapa frontal
-- **Ventana 1** (~alineada con Riel 2): expone los switches del SIMUL8 (accionables con el dedo) y los tornillos externos de las borneras de alimentación 24V/GND.
-- **Ventana 2** (~alineada con Riel 3): expone los tornillos externos de las borneras de paso de señales. El usuario conecta su cable de campo aquí con destornillador plano.
-
-### Cableado interno
-- **Canaleta ranurada 25×25mm** en bordes y entre rieles
-- Cables bajan de componentes → canaleta → borneras de paso
-- Al cablear Riel 1 → Riel 3, seguir la distribución física de la sección anterior (bloque por bloque), no solo la lista lógica de señales — así se evita landear un cable en el bloque equivocado.
-
-#### Código de colores del cableado interno
-| Color | Señal |
-|-------|-------|
-| Rojo | +24V DC |
-| Negro | GND (0V) |
-| Verde | Entradas digitales I1–I8 |
-| Amarillo | Salidas relé O1–O4 |
-| Azul claro | Entradas analógicas AI1–AI6 |
-| Naranja | Salidas analógicas AO1–AO2 |
-| Blanco | Salidas PWM P1–P4 |
-
----
-
-## Borneras de paso — Especificación
-
-**UK-2.5B / AWG 14** — bornera de paso de tornillo estándar, 2.5mm², 20A/600V.
-- 100 grises para señales de campo (Riel 3)
-- Kit Dinkle DK4N rojo/negro AWG 14 para alimentación (Riel 2)
-
-### Lista de compra accesorios
-| Ítem | Cantidad |
-|------|----------|
-| Borneras UK-2.5B grises | 35 uds |
-| Kit Dinkle DK4N rojo/negro | 8 pares |
-| End stops / topes finales | 12 uds |
-| Divisores de grupo | 16 uds |
-| Puentes de cortocircuito (jumper bar) | 4 tiras |
-| Marcadores de cable numerados (clip) | 1 juego |
-
----
-
-## Mapa completo de terminales expuestos
-
-### Riel 2 — Ventana 1
-| Grupo | Terminales | Color |
-|-------|-----------|-------|
-| SIMUL8 | S1–S8 (switches directos con el dedo) | — |
-| Alimentación campo | +24V / GND × 8 pares | Rojo / Negro |
-
-### Riel 3 — Ventana 2
-| Grupo | Terminales | Cant. | Color |
-|-------|-----------|-------|-------|
-| Entradas digitales | I1–I8 + GND×2 | 10 | Verde |
-| Salidas relé | O1–O4 (COM+NA por relé) | 8 | Amarillo |
-| Entradas analógicas | AI1–AI6 + GND | 7 | Azul |
-| Salidas analógicas | AO1, AO2 + GND | 3 | Naranja |
-| Salidas PWM | P1–P4 + GND | 5 | Blanco |
-| **Total** | | **~33** | |
-
----
-
-## Señales disponibles para Plataforma 2
-
-### Entradas al PLC (sensores → Opta)
-- **I1–I8:** digitales 24V — NPN o PNP (inductivos, fotoeléctricos, pulsadores)
-- **AI1–AI2:** analógicas 0–10V, 4–20mA **o PT100** (únicos dos canales del A0602 con entrada PT100)
-- **AI3–AI4:** analógicas 0–10V o 4–20mA (presión, nivel, caudal)
-- **AI5–AI6:** analógicas 0–10V o 4–20mA
-- **TC+/TC−:** termopar tipo K/J/T — leídos por el módulo CELSIUS ubicado en Plataforma 2, que retorna datos al Opta por bus AUX extendido
-
-### Salidas del PLC (actuadores ← Opta)
-- **O1–O4:** relés contacto seco NA, 250VAC/5A por relé (electroválvulas, contactores, pilotos)
-- **AO1–AO2:** analógicas 0–10V o 4–20mA (válvulas proporcionales, variadores)
-- **P1–P4:** PWM (motores DC, dimmers)
-
----
-
-## Estado del proyecto
-
-- [x] Arquitectura de dos plataformas definida
-- [x] Hardware del kit identificado completamente
-- [x] Diseño gabinete: 3 rieles DIN, ventanas, canaletas
-- [x] Borneras de paso especificadas
-- [x] Mapa completo de terminales
-- [x] Distribución física de terminales de fábrica (Opta y A0602)
-- [ ] **PENDIENTE: Diseño Plataforma 2 (sensores y actuadores)**
-- [ ] Pendiente: Diagrama eléctrico cableado interno
-- [ ] Pendiente: Lista de materiales completa
-- [ ] Pendiente: Programación PLC (ejemplos didácticos)
-
----
-
-## Notas técnicas importantes
-
-1. **Salidas Opta = contacto seco** — el relé no alimenta la carga. La energía viene de los +24V externos en serie con la carga.
-2. **SIMUL8 opera independiente** — sus switches van directo a I1–I8 sin pasar por borneras de campo.
-3. **Bus AUX = solo comunicación** — cada módulo necesita su propia alimentación 24V/GND.
-4. **Máximo 5 módulos** encadenables al Opta.
-5. **PLC IDE** solo funciona en Windows 10+ 64 bits.
-6. **El bloque físico de un conector no siempre agrupa la misma señal.** En el Opta, un bloque de salidas trae 2 relés completos (O1+O2 o O3+O4). En el A0602, en cambio, un bloque de salida trae **una sola** salida analógica mezclada con dos entradas del mismo lado (O1 con I3/I4; O2 con I5/I6). Verificar siempre contra la sección "Distribución física de las borneras de fábrica" antes de atornillar un cable, no solo contra el mapa lógico de señales.
-7. **Solo I1 e I2 del A0602 aceptan PT100.** I3–I6 aceptan 0–10V/4–20mA únicamente — si se necesita una segunda entrada de temperatura resistiva, debe ir en I1 o I2, no en cualquier canal libre.
+El informe incluye la guía como Apéndice B. Antes de compilarlo, copie `entregables/Guia_PLC_Estudiante.pdf` a `latex/Guia_PLC_Estudiante_TFG.pdf`. La firma de la declaratoria no se publica, por lo que esa página se compila sin ella.
