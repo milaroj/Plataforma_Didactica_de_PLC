@@ -5,9 +5,6 @@ Trabajo Final de Graduación de la carrera de Ingeniería Electrónica, Institut
 **Diseño de una plataforma didáctica para la enseñanza de PLC de la Escuela de Ingeniería Electrónica del Campus Tecnológico Local San Carlos**
 
 - Autora: María del Milagro Rojas Sánchez
-- Profesor asesor: Ing. Pablo César Rodríguez Vargas
-- Profesor lector: Ing. Leonardo Cardinale Villalobos
-- Noviembre de 2026
 
 ![Plataforma completa](hardware/fotos/Plataforma_completa.jpeg)
 
