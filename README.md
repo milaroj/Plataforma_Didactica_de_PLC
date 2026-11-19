@@ -58,6 +58,8 @@ Las uniones inferiores de la estructura no se resuelven con las escuadras normal
 |---|---|
 | ![Pieza delantera](piezas/Pieza_delantera_angulo_vistalateral.png) | ![Codo trasero](piezas/Pieza_trasera_codo_vistaperfil.png) |
 
+Los archivos para imprimir están en [`piezas/`](piezas): la fuente de Fusion 360 de las piezas de unión (`Soporte_Perfil.f3d`) y los STL de las piezas de unión (`Soportes_Perfil.stl`) y de los soportes de la botonera, los LED, el DIN Celsius y la tarjeta optoacopladora.
+
 Plan de corte de la perfilería (seis perfiles de 500 mm):
 
 | Elemento | Longitud final | Perfiles de origen | Requiere corte |
