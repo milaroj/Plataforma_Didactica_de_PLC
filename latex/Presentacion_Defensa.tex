@@ -70,6 +70,35 @@
 %   \figcap[opciones]{archivo}{pie}
 \newcommand{\figcap}[3][]{\begin{tabular}[t]{@{}c@{}}\includegraphics[#1]{#2}\\[1pt]{\fontsize{6.5}{7.5}\selectfont #3}\end{tabular}}
 
+% Lámina de transición entre temas de la agenda (fondo azul como la portada).
+% Muestra el número y el nombre del tema, y la agenda con el tema actual
+% resaltado. No cuenta en la numeración, así que las láminas de contenido
+% conservan su número (y el del guion).
+%   \transicion{n}   con n = 1..6, en el orden de la Agenda
+\newcommand{\transicion}[1]{%
+{\setbeamercolor{background canvas}{bg=DeepBlue}
+\begin{frame}[plain,noframenumbering]
+    \begin{tikzpicture}[remember picture,overlay]
+        \fill[ArduinoTeal] (current page.south west) rectangle ([yshift=0.55cm]current page.south east);
+        \fill[ArduinoTeal] ([xshift=0.8cm,yshift=1.35cm]current page.west) rectangle ([xshift=0.95cm,yshift=-1.35cm]current page.west);
+        \foreach \tema [count=\i] in {Introducción,Procedimiento metodológico,Descripción de la solución,Análisis de resultados,Costo-beneficio,Conclusiones y recomendaciones}{%
+            \ifnum\i=#1
+                \node[anchor=south west,inner sep=0,text=white,font=\fontsize{40}{44}\selectfont]
+                    at ([xshift=1.35cm,yshift=0.1cm]current page.west) {0#1};
+                \node[anchor=north west,inner sep=0,text=white,text width=0.53\paperwidth,align=left,font=\LARGE]
+                    at ([xshift=1.35cm,yshift=-0.15cm]current page.west) {\tema};
+                \def\colortema{white}\def\colorpunto{ArduinoTeal}
+            \else
+                \def\colortema{white!45!DeepBlue}\def\colorpunto{white!45!DeepBlue}
+            \fi
+            \fill[\colorpunto] ([xshift=0.635\paperwidth,yshift={1.4cm-(\i-1)*0.56cm}]current page.west) circle (0.065cm);
+            \node[anchor=west,inner sep=0,text=\colortema,font=\small]
+                at ([xshift={0.635\paperwidth+0.28cm},yshift={1.4cm-(\i-1)*0.56cm}]current page.west) {\tema};
+        }
+    \end{tikzpicture}
+\end{frame}
+}}
+
 % -------------------------------------------------
 % Datos de portada
 % -------------------------------------------------
@@ -142,14 +171,16 @@
 \begin{frame}{Agenda}
     \begin{itemize}
         \setlength{\itemsep}{0.35em}
-        \item Problema, meta y objetivos
+        \item Introducción
         \item Procedimiento metodológico
         \item Descripción de la solución
-        \item Resultados y análisis
+        \item Análisis de resultados
         \item Costo-beneficio
         \item Conclusiones y recomendaciones
     \end{itemize}
 \end{frame}
+
+\transicion{1}
 
 % -------------------------------------------------
 % 3. Problema [1:30]
@@ -206,10 +237,12 @@
     \end{columns}
 \end{frame}
 
+\transicion{2}
+
 % -------------------------------------------------
 % 6. Metodología [1:00]
 % -------------------------------------------------
-\begin{frame}{Procedimiento metodológico}
+\begin{frame}{Proceso metodológico}
     \begin{center}
     \figcap[width=0.9\linewidth,height=0.3\textheight,keepaspectratio,trim=29 42 66 41,clip]{Diagrama_Metodologia.pdf}{Procedimiento metodológico (draw.io). Fuente: Autora.}
     \end{center}
@@ -219,6 +252,8 @@
         \item Se evaluaron tres decisiones de arquitectura: unidad de control, material estructural e interfaz de acoplamiento.
     \end{itemize}
 \end{frame}
+
+\transicion{3}
 
 % -------------------------------------------------
 % 7. Selección de unidad de control [1:00]
@@ -315,7 +350,7 @@
 % -------------------------------------------------
 % 10. Plataforma completa [1:15]
 % -------------------------------------------------
-\begin{frame}{La plataforma terminada}
+\begin{frame}{Montaje físico}
     \begin{columns}[T]
         \column{0.35\textwidth}
         \centering
@@ -376,6 +411,8 @@
     \end{columns}
 \end{frame}
 
+\transicion{4}
+
 % -------------------------------------------------
 % 14. Práctica 1 [1:30]
 % -------------------------------------------------
@@ -434,6 +471,8 @@
         \item Entre las dos prácticas quedaron validados los cinco tipos de señal de la plataforma.    \end{itemize}
 \end{frame}
 
+\transicion{5}
+
 % -------------------------------------------------
 % 17. Costo-beneficio [1:30]
 % -------------------------------------------------
@@ -470,6 +509,8 @@
         \end{itemize}
     \end{columns}
 \end{frame}
+
+\transicion{6}
 
 % -------------------------------------------------
 % 18. Conclusiones [1:30]
