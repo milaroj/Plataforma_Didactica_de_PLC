@@ -22,8 +22,7 @@ Se diseñó y construyó una plataforma didáctica modular basada en el Arduino 
 | [`diagramas/`](diagramas) | Diagrama eléctrico de la plataforma, diagramas de las prácticas 1 y 2, plano del panel de control y diagrama de la metodología, en PDF y en su fuente de draw.io |
 | [`piezas/`](piezas) | Piezas de unión diseñadas para la estructura, arandela de corte láser y modelo de ensamble |
 | [`hardware/`](hardware) | Fotografías de la plataforma, hoja de datos del DIN Celsius y fotografías de los cables del EasyPort |
-| [`practicas/`](practicas) | Proyectos de FluidSIM y ejemplos realizados en el banco de trabajo |
-| [`latex/`](latex) | Código fuente LaTeX del informe, de la guía y de la presentación, con sus imágenes |
+| [`latex/`](latex) | Código fuente LaTeX de la presentación de la defensa |
 
 ## Entregables
 
@@ -84,7 +83,7 @@ Las fuentes `.drawio` se abren en [app.diagrams.net](https://app.diagrams.net). 
 1. **Práctica 1. Secuencia de cinco estados.** Programa en Ladder que gobierna un cilindro simulado en FluidSIM. Las entradas llegan desde pulsadores y las salidas de relé del Opta se leen en FluidSIM a través del EasyPort.
 2. **Práctica 2. Sistema de enfriamiento con ventilación regulable.** El DIN Celsius representa un recinto que se calienta. El controlador lee la temperatura por la entrada analógica, regula un ventilador con la salida PWM y envía la señal de control al EasyPort por la salida analógica.
 
-El procedimiento paso a paso de ambas prácticas está en la [guía de laboratorio](entregables/Guia_PLC_Estudiante.pdf). Los proyectos de FluidSIM están en [`practicas/fluidsim/`](practicas/fluidsim).
+El procedimiento paso a paso de ambas prácticas está en la [guía de laboratorio](entregables/Guia_PLC_Estudiante.pdf).
 
 ## Manuales y hojas de datos
 
@@ -104,15 +103,3 @@ Las hojas de datos de Arduino se publican con licencia CC BY-SA 4.0. Los manuale
 
 La asignación de hilos del cable SysLink y del cable analógico Sub-D 15 del EasyPort, con los colores verificados en el banco, está en la Sección 1.3 de la guía de laboratorio. Las fotografías de los cables están en [`hardware/easyport_cables/`](hardware/easyport_cables).
 
-## Compilar los documentos
-
-Los documentos se compilan con `pdflatex` (MiKTeX o TeX Live) desde la carpeta [`latex/`](latex):
-
-```
-pdflatex Documento_TFG.tex        (2 pasadas)
-pdflatex Presentacion_Defensa.tex (2 pasadas)
-cd Guía_Estudiante
-pdflatex Guia_PLC_Estudiante.tex  (3 pasadas)
-```
-
-El informe incluye la guía como Apéndice B. Antes de compilarlo, copie `entregables/Guia_PLC_Estudiante.pdf` a `latex/Guia_PLC_Estudiante_TFG.pdf`. La firma de la declaratoria no se publica, por lo que esa página se compila sin ella.
