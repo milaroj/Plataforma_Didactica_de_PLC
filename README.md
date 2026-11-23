@@ -23,6 +23,7 @@ Se diseñó y construyó una plataforma didáctica modular basada en el Arduino 
 | [`piezas/`](piezas) | Piezas de unión diseñadas para la estructura, arandela de corte láser y modelo de ensamble |
 | [`hardware/`](hardware) | Fotografías de la plataforma, hoja de datos del DIN Celsius y fotografías de los cables del EasyPort |
 | [`latex/`](latex) | Código fuente LaTeX de la presentación de la defensa |
+| [`practicas/`](practicas) | Proyectos de Arduino PLC IDE de las prácticas 1 y 2 en Ladder Diagram |
 
 ## Entregables
 

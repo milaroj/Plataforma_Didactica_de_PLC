@@ -1,0 +1,4 @@
+# Archivos que Arduino PLC IDE regenera al compilar
+Build/
+Download/
+LLSketch_build/
